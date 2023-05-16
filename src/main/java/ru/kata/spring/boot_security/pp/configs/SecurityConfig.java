@@ -35,13 +35,7 @@ public class SecurityConfig {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
     }
-
-
-//    @Autowired
-//    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//    }
-
+    
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
