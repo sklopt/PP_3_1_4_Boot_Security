@@ -4,18 +4,19 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<User> users;
 
     public Role() {
@@ -23,6 +24,10 @@ public class Role implements GrantedAuthority {
 
     public Role(Long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Role(String name) {
         this.name = name;
     }
 

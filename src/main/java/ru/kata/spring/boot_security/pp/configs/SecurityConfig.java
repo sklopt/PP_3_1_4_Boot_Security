@@ -4,9 +4,11 @@ package ru.kata.spring.boot_security.pp.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,9 +28,23 @@ public class SecurityConfig {
 
     private final SuccessUserHandler successUserHandler;
 
+    private final UserDetailsService userDetailsService;
+
     @Autowired
-    public SecurityConfig(SuccessUserHandler successUserHandler) {
+    public SecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
+        this.userDetailsService = userDetailsService;
+    }
+
+
+//    @Autowired
+//    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -36,8 +52,10 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/admin/**", "/add", "/new", "/{id}/**").hasRole("ADMIN")
+                        .requestMatchers("/user").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/admin/**", "/add", "/new", "/{id}/**").hasAuthority("ADMIN")
                 )
                 .formLogin()
                 .loginPage("/login")

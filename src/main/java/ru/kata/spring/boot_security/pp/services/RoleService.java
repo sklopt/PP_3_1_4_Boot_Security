@@ -2,12 +2,16 @@ package ru.kata.spring.boot_security.pp.services;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.pp.entities.Role;
 
 import java.util.List;
 
 @Service
+@Transactional
+@Repository
 public class RoleService {
 
     @PersistenceContext
@@ -18,9 +22,9 @@ public class RoleService {
     }
 
 
-    public Role getRole(String userRole) {
+    public Role getRole(String name) {
         return entityManager.createQuery("select r from Role r where r.name =: name", Role.class)
-                .setParameter("userRole", userRole).getSingleResult();
+                .setParameter("name", name).getSingleResult();
     }
 
 

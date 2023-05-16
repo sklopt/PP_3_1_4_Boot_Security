@@ -5,10 +5,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.pp.entities.Role;
 import ru.kata.spring.boot_security.pp.entities.User;
 import ru.kata.spring.boot_security.pp.services.RoleService;
 import ru.kata.spring.boot_security.pp.services.UserService;
 
+import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,16 +41,19 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String createUser(@ModelAttribute("user") User user) {
-        getUserRoles(user);
+    public String createUser(@ModelAttribute("user") User user, @RequestParam(value = "checkedRoles") String[] selectResult) {
+        for (String s : selectResult) {
+            user.setRoles((Set<Role>) roleService.getRole("ROLE_" + s));
+        }
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PutMapping("/{id}/update")
-    public String updateUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleService.getAllRoles());
-        getUserRoles(user);
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "checkedRoles") String[] selectResult) {
+        for (String s : selectResult) {
+            user.setRoles(Collections.singleton(roleService.getRole("ROLE_" + s)));
+        }
         userService.updateUser(user);
         return "redirect:/admin";
     }

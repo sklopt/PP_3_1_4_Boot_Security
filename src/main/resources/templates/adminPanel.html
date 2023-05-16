@@ -17,9 +17,9 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <p class="navbar-brand text-white">
-            <b><span class="align-middle" th:text="45"></span></b>
+            <b><span class="align-middle" th:text="${user.email}"></span></b>
             <span class="align-middle">with roles:</span>
-            <span class="align-middle" th:text="55"></span>
+            <span class="align-middle" th:text="${user.roles}"></span>
         </p>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-dark text-secondary">Logout</button>
@@ -97,38 +97,54 @@
                                                           th:object="${user}" th:method="PUT">
                                                         <div class="modal-body col-md text-center">
                                                             <br>
-                                                            <label for="name0"><b>Name</b></label>
+                                                            <label for="name"><b>Name</b></label>
                                                             <input th:name="name" th:type="text"
-                                                                   class="form-control" id="name0"
+                                                                   class="form-control" id="name"
                                                                    th:value="${user.name}"/>
                                                             <br>
-                                                            <label for="surname0"><b>Surname</b></label>
+                                                            <label for="surname"><b>Surname</b></label>
                                                             <input th:name="surname" th:type="text"
-                                                                   class="form-control" id="surname0"
+                                                                   class="form-control" id="surname"
                                                                    th:value="${user.surname}"/>
                                                             <br>
-                                                            <label for="age0"><b>Age</b></label>
+                                                            <label for="age"><b>Age</b></label>
                                                             <input th:name="age" th:type="number"
-                                                                   class="form-control" id="age0"
+                                                                   class="form-control" id="age"
                                                                    th:value="${user.age}"/>
                                                             <br>
-                                                            <label for="email0"><b>Email</b></label>
+                                                            <label for="email"><b>Email</b></label>
                                                             <input th:name="email" th:type="text"
-                                                                   class="form-control" id="email0"
+                                                                   class="form-control" id="email"
                                                                    th:value="${user.email}"/>
                                                             <br>
-                                                            <label for="password0"><b>Password</b></label>
+                                                            <label for="password"><b>Password</b></label>
                                                             <input th:name="password" type="text"
-                                                                   class="form-control" id="password0"
+                                                                   class="form-control" id="password"
                                                                    th:value="${user.password}"/>
                                                             <br>
                                                             <label for="roles"><b>Role</b></label>
-                                                            <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>
-                                                                <option th:each="role: ${roles}" th:value="${role.name}" th:selected="${user.roles.contains(role)}">
-                                                                    <th:block th:text="${role.name}">
-                                                                    </th:block>
+                                                            <select class="form-select w-100" multiple
+                                                                    aria-label="multiple select example"
+                                                                    size="2"
+                                                                    id="roles"
+                                                                    name="checkedRoles">
+                                                                <option selected="true">
+                                                                    USER
+                                                                </option>
+                                                                <option>
+                                                                    ADMIN
                                                                 </option>
                                                             </select>
+
+<!--                                                            <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>-->
+<!--                                                                <option th:each="role: ${roles}" th:value="${role.name}" th:selected="${user.roles.contains(role)}">-->
+<!--                                                                    <th:block th:text="${role.name}">-->
+<!--                                                                    </th:block>-->
+<!--                                                                </option>-->
+<!--                                                            </select>-->
+<!--                                                            <input th:list="roles" type="text"-->
+<!--                                                                   class="form-control" id="roles"-->
+<!--                                                                   th:value="ROLE_ADMIN"/>-->
                                                             <br><br>
                                                         </div>
                                                         <div class="modal-footer">
@@ -181,11 +197,6 @@
                                                             <input th:name="email" th:type="text"
                                                                    class="form-control"
                                                                    id="email1" th:value="${user.email}" disabled/>
-                                                            <br>
-                                                            <label for="login1"><b>Age</b></label>
-                                                            <input th:name="login" th:type="text"
-                                                                   class="form-control"
-                                                                   id="login1" th:value="${user.email}" disabled/>
                                                             <br>
                                                         </div>
 
