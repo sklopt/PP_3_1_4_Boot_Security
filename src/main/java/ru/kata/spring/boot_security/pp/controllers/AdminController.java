@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.pp.services.RoleService;
 import ru.kata.spring.boot_security.pp.services.UserService;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,8 +52,10 @@ public class AdminController {
 
     @PutMapping("/{id}/update")
     public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "checkedRoles") String[] selectResult) {
+        Set<Role> roles = new HashSet<>();
         for (String s : selectResult) {
-            user.setRoles(Collections.singleton(roleService.getRole("ROLE_" + s)));
+            roles.add(roleService.getRole("ROLE_" + s));
+            user.setRoles(roles);
         }
         userService.updateUser(user);
         return "redirect:/admin";
