@@ -10,7 +10,6 @@ import ru.kata.spring.boot_security.pp.entities.User;
 import ru.kata.spring.boot_security.pp.services.RoleService;
 import ru.kata.spring.boot_security.pp.services.UserService;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
