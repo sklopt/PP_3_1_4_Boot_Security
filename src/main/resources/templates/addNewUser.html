@@ -71,10 +71,16 @@
                                        id="password"/>
                                 <br>
                                 <label for="roles"><b>Role</b></label>
-                                <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>
-                                    <option th:each="role: ${roles}" th:value="${role.name}" th:selected="${user.roles.contains(role)}">
-                                        <th:block th:text="${role.name}">
-                                        </th:block>
+                                <select class="form-select w-100" multiple
+                                        aria-label="multiple select example"
+                                        size="2"
+                                        id="roles"
+                                        name="checkedRoles">
+                                    <option selected="true">
+                                        USER
+                                    </option>
+                                    <option>
+                                        ADMIN
                                     </option>
                                 </select>
                                 <br>

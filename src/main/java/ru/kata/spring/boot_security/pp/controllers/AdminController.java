@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
+@SuppressWarnings("unchecked")
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
@@ -42,8 +43,10 @@ public class AdminController {
 
     @PostMapping("/new")
     public String createUser(@ModelAttribute("user") User user, @RequestParam(value = "checkedRoles") String[] selectResult) {
+        Set<Role> roles = new HashSet<>();
         for (String s : selectResult) {
-            user.setRoles((Set<Role>) roleService.getRole("ROLE_" + s));
+            roles.add(roleService.getRole("ROLE_" + s));
+            user.setRoles(roles);
         }
         userService.saveUser(user);
         return "redirect:/admin";
