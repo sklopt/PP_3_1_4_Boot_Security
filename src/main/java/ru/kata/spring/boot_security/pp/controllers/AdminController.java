@@ -12,10 +12,8 @@ import ru.kata.spring.boot_security.pp.services.UserService;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
-@SuppressWarnings("unchecked")
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
@@ -69,9 +67,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    private void getUserRoles(User user) {
-        user.setRoles(user.getRoles().stream()
-                .map(role -> roleService.getRole(role.getName()))
-                .collect(Collectors.toSet()));
-    }
+//    private void getUserRoles(User user) {
+//        user.setRoles(user.getRoles().stream()
+//                .map(role -> roleService.getRole(role.getName()))
+//                .collect(Collectors.toSet()));
+//    }
 }

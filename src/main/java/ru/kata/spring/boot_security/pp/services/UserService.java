@@ -41,11 +41,17 @@ public class UserService implements UserDetailsService {
 
 
     public void saveUser(User user) {
+        if (!user.getPassword().equals(userRepository.findUserByEmail(user.getEmail()))) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         entityManager.persist(user);
     }
 
 
     public void updateUser(User user) {
+        if (!user.getPassword().equals(userRepository.findUserByEmail(user.getEmail()))) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         entityManager.merge(user);
     }
 
