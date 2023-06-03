@@ -1,0 +1,18 @@
+services:
+  db:
+    image: mysql
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: mysqlpp315
+#      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: d7)LJ85dfg
+#      MYSQL_PASSWORD: d7)LJ85dfg
+  app:
+    build: ./
+    container_name: "java-app"
+    ports:
+      - "8080:8080"
+
+
+
